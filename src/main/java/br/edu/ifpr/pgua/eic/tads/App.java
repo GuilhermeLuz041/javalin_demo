@@ -1,33 +1,35 @@
 package br.edu.ifpr.pgua.eic.tads;
 
-import br.edu.ifpr.pgua.eic.tads.controllers.CadastroController;
-import br.edu.ifpr.pgua.eic.tads.controllers.IndexController;
-import br.edu.ifpr.pgua.eic.tads.controllers.ListaController;
-import br.edu.ifpr.pgua.eic.tads.models.Cadastro;
-import br.edu.ifpr.pgua.eic.tads.utils.JavalinUtils;
-import io.javalin.Javalin;
 
-/**
- * Hello world!
- *
- */
+import br.edu.ifpr.pgua.eic.tads.controllers.AlunoController;
+import br.edu.ifpr.pgua.eic.tads.controllers.CadastroController;
+import br.edu.ifpr.pgua.eic.tads.controllers.DisciplinaController;
+import br.edu.ifpr.pgua.eic.tads.controllers.EscolaController;
+import br.edu.ifpr.pgua.eic.tads.controllers.ProfessorController;
+import br.edu.ifpr.pgua.eic.tads.utils.JavalinUtils;
+
 public class App {
     public static void main( String[] args ){
         var app = JavalinUtils.makeApp(7070);
+
+        app.get("/", ctx -> ctx.redirect("/index.html"));
+        app.get("/cadastroEscola", ctx -> ctx.render("/public/templates/cadastro/cadastroEscola.html"));
+        app.post("/escolas", EscolaController::inserirEscola);
         
-        Cadastro cadastro = new Cadastro();
+        app.get("/cadastro", CadastroController.mostrarPaginaCadastro);
 
-        IndexController indexController = new IndexController();
-        CadastroController cadastroController = new CadastroController(cadastro);
-        ListaController listaController = new ListaController(cadastro);
-
-        app.get("/", indexController.get);
-        app.get("/ola",indexController.ola);
-
-        app.get("/cadastro",cadastroController.get);
-        app.post("/cadastro",cadastroController.post);
-
-        app.get("/lista", listaController.get);
+        app.get("/cadastroAluno", AlunoController.mostrarFormulario);
+        app.post("/alunos", AlunoController::inserirAluno);
         
+        app.get("/cadastroProfessor", ProfessorController.mostrarFormulario);
+        app.post("/professores", ProfessorController::inserirProfessor);
+        
+        app.get("/cadastroDisciplina", DisciplinaController.mostrarFormulario);
+        app.post("/disciplinas", DisciplinaController::inserirDisciplina);
+
+        app.get("/listaAlunos", AlunoController::listarAlunosView);
+
+
+        app.start();
     }
 }

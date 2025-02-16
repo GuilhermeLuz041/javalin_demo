@@ -1,16 +1,33 @@
 <!DOCTYPE html>
-<br lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
     <link rel="stylesheet" href="css/estilo.css">
-    <title>Lista de Contatos</title>
 </head>
 <body>
-    <ul>
-        <#list lista as pessoa>
-            <li>${pessoa.nome} - ${pessoa.email} - ${pessoa.telefone}</li>
-        </#list>
-    </ul>
+
+<header>
+  <div class="titulo">
+    <h1>Place-holder</h1>
+  </div>
+
+  <div class="botoes">
+    <button class="botao"><a href="lista.html">Lista</a></button>
+    <button class="botao"><a href="cadastro.html">Cadastro</a></button>
+    <button class="botao"><a href="remover.html">Remover</a></button>
+    <button class="botao"><a href="buscar.html">Buscar</a></button>
+  </div>
+</header>
+
+<div class="content">
+  <div class="container">
+    <button class="item"><a href="templates/lista/listaAluno.html">Listar Alunos</a></button>
+    <button class="item"><a href="lista/listasProfessor.html">Listar Professores</a></button>
+    <button class="item"><a href="lista/listaDisciplina.html">Listar Disciplinas</a></button>
+  </div>
+</div>
+
 </body>
 </html>
