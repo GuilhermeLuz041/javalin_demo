@@ -29,7 +29,11 @@ public class App {
 
         app.get("/listaAlunos", AlunoController::listarAlunosView);
 
+        app.get("/excluirAluno/:id", AlunoController::excluirAluno);
+        app.get("/removerAluno", AlunoController::mostrarFormularioExclusao);
+        app.post("/excluirAluno", AlunoController::processarExclusao);
 
+        
         app.start();
     }
 }

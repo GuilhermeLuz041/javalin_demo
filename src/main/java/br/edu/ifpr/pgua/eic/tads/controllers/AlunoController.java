@@ -17,6 +17,30 @@ public class AlunoController {
         ctx.render("templates/cadastro/cadastroAluno.html");
     };
 
+    public static void mostrarFormularioExclusao(Context ctx) {
+        ctx.render("templates/remover/removerAluno.html"); 
+    }
+
+    public static void processarExclusao(Context ctx) {
+        String idStr = ctx.formParam("id");
+
+        if (idStr == null || idStr.trim().isEmpty()) {
+            ctx.status(400).result("ID do aluno não informado.");
+            return;
+        }
+
+        try {
+            int id = Integer.parseInt(idStr);
+            alunoDAO.removerAluno(id);
+            ctx.result("Aluno excluído com sucesso!");
+        } catch (NumberFormatException e) {
+            ctx.status(400).result("ID inválido.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            ctx.status(500).result("Erro ao excluir o aluno.");
+        }
+    }
+
     public static void inserirAluno(Context ctx) {
         Aluno aluno = new Aluno();
         aluno.setNome(ctx.formParam("nome"));
@@ -31,27 +55,17 @@ public class AlunoController {
         ctx.redirect("/cadastro.html");
     }
 
-    /*
-    public static void listarAlunos(Context ctx) {
-        List<Aluno> alunos = alunoDAO.listarAlunos();
-        ctx.json(alunos); 
-    }
-    */
-
-   public static void listarAlunosView(Context ctx) {
-        List<Aluno> alunos = alunoDAO.listarAlunos();
+    public static void listarAlunosView(Context ctx) {
+        List<Aluno> alunos = alunoDAO.listarAlunos(); 
         Map<String, Object> model = new HashMap<>();
-    model.put("alunos", alunos);
-
-    ctx.redirect("listaAluno.ftl");
+        model.put("alunos", alunos); 
+        ctx.render("templates/lista/listaAlunos.html", model);
     }
-
-
-
-
+    
+    
     public static void excluirAluno(Context ctx) {
         int id = Integer.parseInt(ctx.pathParam("id"));
-        alunoDAO.excluirAluno(id);
-        ctx.redirect("/listarAlunos");
+        alunoDAO.removerAluno(id);
+        ctx.redirect("/remover.html");
     }
 }

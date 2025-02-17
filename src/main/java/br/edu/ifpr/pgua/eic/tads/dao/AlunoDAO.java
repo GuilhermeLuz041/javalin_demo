@@ -57,35 +57,10 @@ public class AlunoDAO {
         return lista;
     }
 
-    public Aluno buscarAluno(int id) {
-        Aluno a = null;
-        String sql = "SELECT * FROM aluno WHERE id = ?";
-        try (Connection conn = FabricaConexao.getConexao();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                a = new Aluno();
-                a.setId(rs.getInt("id"));
-                a.setMatricula(rs.getString("matricula"));
-                a.setNome(rs.getString("nome"));
-                a.setCpf(rs.getString("cpf"));
-                a.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
-                a.setEndereco(rs.getString("endereco"));
-                a.setTelefone(rs.getString("telefone"));
-                a.setEmail(rs.getString("email"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return a;
-    }
-
-    public void excluirAluno(int id) {
+    public void removerAluno(int id) {
         String sql = "DELETE FROM aluno WHERE id = ?";
         try (Connection conn = FabricaConexao.getConexao();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
